@@ -2,7 +2,7 @@
 
 module disp_hex_mux(
     input logic clk, reset,
-    input logic [3:0] hex3, hex2, hex1, hex0, //hex instead of 8 bit bin
+    input logic [3:0] hex3, hex2, hex1, hex0, //hex instead of 8 bit binary
     input logic [3:0] dp_in, //decimal points
     output logic [3:0] an, //enable
     output logic [7:0] sseg //led segments
@@ -15,7 +15,7 @@ module disp_hex_mux(
     logic [N-1:0] hex_in;
     logic dp;
     
-    always_ff@(posedge clk, posedge reset)
+    always_ff@(posedge clk, posedge reset) //next state logic
         if(reset)
             q_reg <= 0;
         else
@@ -23,7 +23,7 @@ module disp_hex_mux(
             
         assign q_next = q_reg + 1;
         
-        always_comb
+        always_comb //an enable with corresponding hex value
             case(q_reg[N-1:N-2])
                 2'b00:
                     begin
@@ -51,7 +51,7 @@ module disp_hex_mux(
                     end
         endcase
         
-        always_comb
+        always_comb //display sseg in hex cases
           begin
             case(hex_in)
                 4'h0: sseg [6:0] = 7'b1000000;
